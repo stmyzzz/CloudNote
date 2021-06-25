@@ -1,0 +1,1 @@
+export const imgurl = 'http://localhost:3000/'
