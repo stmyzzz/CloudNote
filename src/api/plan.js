@@ -8,7 +8,7 @@ export const plans = () => request.get('/api/plan')
 /* 攻略图片上传 */
 export const upload = data => request.post('/api/plan/upload',data,config)
 
-/* userId攻略查找 */
+/* userId攻略查找12 */
 export const single = () => request.get('/api/plan/single')
 
 /* 添加攻略 */
