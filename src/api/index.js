@@ -1,3 +1,5 @@
 export * from './user'
 export * from './article'
 export * from './plan'
+export * from './comment'
+export * from './jingdian'

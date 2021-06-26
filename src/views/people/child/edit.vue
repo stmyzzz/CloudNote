@@ -110,7 +110,7 @@
                             <span>{{item}}</span>
                             <button class="button" @click="opera(index)">删除</button>
                           </li>
-                          </ul>          
+                          </ul>  
                       </div>
                     </div>
                   </div>

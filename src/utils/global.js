@@ -12,6 +12,7 @@ import {
   DropdownItem,
 } from 
 'element-ui'
+import * as utils from './index'
 
 export default {
   install(Vue){
@@ -23,5 +24,6 @@ export default {
     Vue.use(Dialog)
     Vue.use(Popover).use(Dropdown).use(DropdownItem).use(DropdownMenu)
     Vue.prototype.$message = Message;
+    Vue.prototype.$utils = utils
   }
 }

@@ -37,7 +37,9 @@
           <img src="@/assets/changetheme.png" alt="">
         </div>
 
-        <!-- 头像  --> <el-dropdown @command="handleCommand" trigger="click">
+        <!-- 头像  --> 
+        <div v-if="isLogin">
+          <el-dropdown @command="handleCommand" trigger="click">
         <div class="profile-wrap">
           <div class="img-wrap">
             <img  :src="imgurl+profiles.avatal_url" alt="">
@@ -49,6 +51,11 @@
               <el-dropdown-item icon="el-icon-error">退出</el-dropdown-item>
             </el-dropdown-menu>
         </el-dropdown>
+        </div>
+        <div class="button button--blue" @click="goLogin"  v-if="!isLogin">
+          登录
+        </div>
+        
       </div>
     </header>
     <router-view></router-view>
@@ -60,7 +67,8 @@
 import {navRoutes} from '@/router'
 import {auth} from '@/api'
 import {imgurl} from '@/config'
-export default {
+import {mapState,mapMutations} from 'vuex'
+export default {  
   name:'Header',
   data(){
     return {
@@ -73,6 +81,9 @@ export default {
       imgurl:imgurl
     }
   },
+  computed:{
+    ...mapState(['isLogin'])
+  },
   mounted(){
     document.addEventListener('scroll',this.Scroll)
     console.log('this.userid',this.userId);
@@ -81,10 +92,14 @@ export default {
     this.init()
   },
   methods:{
+    ...mapMutations(['setLogin']),
     handleCommand(command){
       if(command == "a"){
         this.$router.push('/people/'+this.profiles.userId)
       }
+    },
+    goLogin(){
+      this.$router.push('/login')
     },
     Scroll(){
       console.log('12');
@@ -96,7 +111,12 @@ export default {
     async init(){
       let data = await auth()
       console.log('data',data);
-      this.profiles = data.model
+      if(data.msg == 'error'){
+        this.setLogin(false)
+      }else{
+        this.profiles = data.model
+        this.setLogin(true)
+      }
     }
   }
 }

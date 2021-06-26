@@ -30,6 +30,10 @@ let config = {
 /* 用户头像上传 */
 export const uploadava = data => request.post('/api/user/uploadAva',data,config)
 
+/* 查看用户动态 */
+export const dongtai = () =>
+request.get('/api/user/dongtai')
+
 
 
 

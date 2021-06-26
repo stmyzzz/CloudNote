@@ -3,7 +3,7 @@
     <slot name="dynmic">
     </slot>
     <div class="card-title">
-      <h1 >{{data.plans_title}}</h1>
+      <h1 >{{data.plans_title}} id:{{data.id}}</h1>
     </div>
     <author-info :infor="data.profile"></author-info>
     <div class="card-content">
@@ -16,7 +16,7 @@
     </div>
     <div class="card-footer">
       <button class="att-btn"> <span>*</span>点赞</button>
-      <span class="comment">50条评论</span>
+      <span @click="getComment" class="comment">{{data.comments.length}}条评论</span>
       <span class="share">分享</span>
       <span class="collect">收藏</span>
       <span class="time">2020-10-24</span>
@@ -28,6 +28,7 @@
 <script>
 import AuthorInfo from '@/components/author-info'
 import {imgurl} from '@/config'
+import {comment,commentAuth} from '@/api'
 export default {
   props:{
     data:{
@@ -37,6 +38,25 @@ export default {
   data(){
     return {
       imgurl
+    }
+  },
+  methods:{
+    async getComment(){
+      let res = await comment(this.data.id,1)
+
+      let auth = await commentAuth(1,this.data.id);
+      console.log(res);
+      console.log('用户评论列表',auth);
+      res.data.forEach(item1 => {
+        auth.forEach(item2=>{
+          if(item2.id == item1.id){
+            item1['status'] = 1
+          }
+        })
+      });
+      console.log('resulte',res.data);
+      res.data['textId'] = this.data.id
+      this.$emit('getComment',res.data)
     }
   },
   components:{
