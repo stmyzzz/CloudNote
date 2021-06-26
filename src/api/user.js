@@ -31,8 +31,12 @@ let config = {
 export const uploadava = data => request.post('/api/user/uploadAva',data,config)
 
 /* 查看用户动态 */
-export const dongtai = () =>
-request.get('/api/user/dongtai')
+export const dongtai = id =>
+request.get('/api/user/dongtai',{
+  params:{
+    id
+  }
+})
 
 
 

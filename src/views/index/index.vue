@@ -44,8 +44,6 @@
         </div>
       </div>
     </div>
-    <!-- <h1>专注于业务的小程序UI组件库</h1>  
-    <router-link to="/login">登录</router-link> -->
 
   </div>
 </template>

@@ -51,7 +51,7 @@
             </ul>
           </div>
           <div class="main-list">
-            <router-view></router-view>
+            <router-view :id="userId"></router-view>
           </div>
         </div>
 
@@ -76,7 +76,7 @@
               <strong class="follow-itemNumber">100</strong>
             </div>
           </router-link>
-                 <router-link class="button" :to="'/people/'+this.userId+'/following'">
+                 <router-link class="button" :to="'/people/'+userId+'/following'">
             <div class="follow-iteminner">
               <div class="follow-itemName">关注者</div>
               <strong class="follow-itemNumber">100</strong>
@@ -124,6 +124,8 @@ export default {
     UserCover
   },
   created(){  
+    console.log('this.log',this.$route.params.id);
+    this.userId = this.$route.params.id
   },
   /* 判断该id是否存在 */
   async beforeRouteEnter(to,from,next){
@@ -135,7 +137,6 @@ export default {
       console.log('to',to);
       next(vm=>{
         vm.profiles = res.data
-        vm.userId = to.params.id
         if(res.data.userId !== res.token){
           vm.auth = true
         }
