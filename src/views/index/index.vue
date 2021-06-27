@@ -49,7 +49,6 @@
 </template>
   
 <script> 
-import {plans} from '@/api'
 export default {
   data(){
     return {
@@ -57,19 +56,12 @@ export default {
         {'name':'推荐','path':'/'},
         {'name':'关注','path':'/follow'},
         {'name':'热门景点','path':'/hot'}
-      ],
-      plans:[]
+      ]
     }
   },
   created(){
-    this.init()
   },
   methods:{
-    async init(){
-      let res = await plans()
-      console.log(res);
-      this.plans = res.data
-    }
   },
   components:{
   }

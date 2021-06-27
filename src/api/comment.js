@@ -12,8 +12,8 @@ export const addComment = (comment_text,textId) => request.post('/api/comment',{
   textId
 })
 
-/* 评论检验 */
-export const commentAuth = (typeId,textId)=>request.get('/api/commentAuth',{
+/* 评论收藏点赞状态检验 */
+export const statusAuth = (typeId,textId)=>request.get('/api/statusAuth',{
   params:{
     typeId,
     textId
