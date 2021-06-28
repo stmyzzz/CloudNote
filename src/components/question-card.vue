@@ -15,20 +15,21 @@
       </div>
     </div>
     <div class="card-footer">
-      <button class="att-btn"> <span>*</span>点赞</button>
+      <button @click="getZan" class="att-btn"> <span>*</span>{{zanStatus}}</button>
       <span @click="getComment" class="comment">{{data.comments.length}}条评论</span>
-      <span class="share">分享</span>
-      <span class="collect">收藏</span>
-      <span class="time">2020-10-24</span>
+      <button :data-clipboard-text="shareUrl" ref="share" @click="onShareClick" class="share">分享</button>
+      <span @click="getCollection" class="collect">{{collectionStatus}}</span>
+      <span class="time">{{$utils.date(data.createdAt)}</span>
     </div>
-
+ 
   </div>
 </template>
 
 <script>
 import AuthorInfo from '@/components/author-info'
 import {imgurl} from '@/config'
-import {comment,commentAuth} from '@/api'
+import {comment,upZan,upColl} from '@/api'
+import Clipboard from 'clipboard'
 export default {
   props:{
     data:{
@@ -37,26 +38,45 @@ export default {
   },
   data(){
     return {
-      imgurl
+      imgurl,
+      zanStatus:"点赞",
+      collectionStatus:"收藏",
+      shareUrl:""
     }
-  },
-  methods:{
+  }, 
+  created(){
+      this.data.zanStatus ==1 ? this.zanStatus ="取消" : this.zanStatus ="点赞"
+      this.data.collStatus ==1 ? this.collectionStatus ="取消" : this.collectionStatus ="收藏"
+      this.shareUrl = "复制测试"
+    },
+    mounted(){
+      this.initShare()
+    },
+  methods:{ 
+    initShare() {
+      new Clipboard(".share")
+    },
+    onShareClick() {
+      alert("分享链接已经复制到剪贴板。")
+    },
     async getComment(){
       let res = await comment(this.data.id,1)
-
-      let auth = await commentAuth(1,this.data.id);
       console.log(res);
-      console.log('用户评论列表',auth);
-      res.data.forEach(item1 => {
-        auth.forEach(item2=>{
-          if(item2.id == item1.id){
-            item1['status'] = 1
-          }
-        })
-      });
       console.log('resulte',res.data);
       res.data['textId'] = this.data.id
       this.$emit('getComment',res.data)
+    },
+    async getZan(){
+      console.log('this.data.id',this.data.id);
+      let res = await upZan(this.data.id,1)
+      this.zanStatus == "点赞" ? this.zanStatus ="取消": this.zanStatus = "点赞"
+      console.log(res);
+    },
+    async getCollection(){
+      console.log('this.data.id',this.data.id);
+      let res = await upColl(this.data.id)
+      this.collectionStatus == "收藏" ? this.collectionStatus ="取消": this.collectionStatus = "收藏"
+      console.log(res);
     }
   },
   components:{

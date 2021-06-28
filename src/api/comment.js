@@ -6,9 +6,9 @@ export const comment = (id,typeId) => request.get('/api/comment',{params:{
 }})
 
 /* 添加评论 */
-export const addComment = (comment_text,textId) => request.post('/api/comment',{
+export const addComment = (comment_text,textId,typeId) => request.post('/api/comment',{
   comment_text,
-  typeId:1,
+  typeId,
   textId
 })
 

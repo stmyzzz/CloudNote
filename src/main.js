@@ -14,8 +14,8 @@ router.beforeEach((to,form,next)=>{
 	console.log('qianzhi',to);
 	if(to.meta.auth){
 	auth().then(res=>{
-		console.log(res);
-		to.query.id = res.model.id
+		console.log('全局路由的',res);
+		to.query.id = res.model.userId
 	if(res.state == 1){	
 			next()
 		}else{

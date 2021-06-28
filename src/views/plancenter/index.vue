@@ -11,13 +11,13 @@
           <h1 class="plan_name">添加新的攻略</h1>  
         </div>
       </div>
-      <plan-item v-for="(item,index) in plans" :key="index" :data="item"></plan-item>
+      <plan-item v-for="(item,index) in plans" :key="index" :data="item" ></plan-item>
     </div>
     <el-dialog
   title="添加攻略"
   :visible.sync="dialogVisible"
   width="30%">
-  <el-input v-model="planinfor.plans_title" placeholder="城市名"></el-input>
+  <el-input v-model="planinfor.plans_city" placeholder="城市名"></el-input>
   <p style="margin-top:10px">一旦确认无法修改</p>
   <span slot="footer" class="dialog-footer">
     <el-button @click="dialogVisible = false">取 消</el-button>
@@ -55,9 +55,12 @@ export default {
     async add(){
       let data = await add(this.planinfor)
       this.plans.push(this.planinfor)
-      console.log(data);
+      console.log('添加的结果',data.data.id);
       this.dialogVisible = false
-    }
+      this.$router.push({name:'editplan',params:{
+        id:data.data.id
+      }})
+    },
   }
 }
 </script>

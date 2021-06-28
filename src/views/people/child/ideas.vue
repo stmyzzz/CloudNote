@@ -2,32 +2,46 @@
 <div class="ideas">
   <list-header title="他的想法"></list-header>
     <div class="card">
-    <slot name="dynmic">
-    </slot>
-    <author-info></author-info>
-    <div class="card-content">
-      <div class="content-right">
-        <span class="content-span">特别想去长沙。。</span>
-      </div>
+      <idea-list @getComment="getComment" v-for="(item,index) in infor" :data="item" :key="index"></idea-list>
+          <comment-pop :commentDetail="commentDetail" :show="isShow"></comment-pop>
     </div>
-    <div class="card-footer">
-      <button class="att-btn"> <span>*</span>点赞</button>
-      <span class="comment">50条评论</span>
-      <span class="share">分享</span>
-      <span class="collect">收藏</span>
-      <span class="time">2020-10-24</span>
-    </div>
-  </div>
 </div>
 </template>
 
 <script>
-import AuthorInfo from '@/components/author-info'
+import IdeaList from './idea-list'
 import ListHeader from '@/components/list-header'
+import {idea} from '@/api'
+import CommentPop from '@/components/comment-pop'
 export default {
   components:{
-    AuthorInfo,
-    ListHeader
+    IdeaList,
+    ListHeader,
+    CommentPop
+  }, 
+  data(){
+    return {
+      infor:[],
+      commentDetail:[],
+      isShow:false
+    }
+  },
+  async created(){
+      console.log('this.params.id',this.$route.params.id);
+      this.userId = this.$route.params.id
+      this.init()
+    },
+  methods:{
+    async init(){
+        let res = await idea(this.userId)
+      console.log('dongt12ai',res);
+      this.infor = res.data
+    },
+    getComment(data){
+      console.log('commentDetail',data);
+      this.commentDetail = data
+      this.isShow = true
+    }
   }
 }
 </script>
@@ -39,45 +53,6 @@ export default {
     padding: 17px;
     border-top: 1px solid #f5f5f5;
     background: #fff;
-    .card-title{
-      h1{
-        font-size: 17px;
-      }
-    }
-    .card-content{
-      display: flex;
-      margin-top: 10px;
-      .content-right{ 
-        overflow: hidden;
-        .content-span{
-          font-size: 15px;
-          font-weight:600;
-        }
-        .all-btn{
-          color: $theme-color;
-        }
-      }
-    }
-    .card-footer{
-        display: flex;
-        align-items: center;
-        margin-top: 12px;
-        .att-btn{
-        line-height: 28px;
-        background: #ade4fd;
-        border-radius: 3px;
-        padding: 0px 13px;
-        display: block;
-        }
-        .comment,.share,.collect,.time{
-          margin-left: 15px;
-          font-size: 15px;
-        }
-    }
-    .card-name{
-      padding: 0px 0px 8px 0;
-      @include sc(15px,#666);
-    }
   }
 
 </style>

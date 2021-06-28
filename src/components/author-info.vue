@@ -32,7 +32,7 @@ export default {
     }
   },
   created(){
-    console.log(this.infor);
+    console.log('头像',this.infor);
   }
 }
 </script>

@@ -2,9 +2,12 @@ import axios from 'axios'
 import {getStore} from './storage'
 import router from '../router'
 import Vue from 'vue'
+/* 
+const BASE_URL = "http://localhost:3000"; */
 export const request = createBaseInstance()
 function createBaseInstance(){
   const instance = axios.create({
+    /* baseURL: BASE_URL, */
   })
 
   /* 请求拦截器 */

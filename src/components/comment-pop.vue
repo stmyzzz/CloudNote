@@ -42,7 +42,7 @@ export default {
         console.log('不完整');
         return
       }
-      await addComment(this.comment_text,this.commentDetail.textId)
+      await addComment(this.comment_text,this.commentDetail.textId,this.typeId)
       this.comment_text = ""
     }
   }

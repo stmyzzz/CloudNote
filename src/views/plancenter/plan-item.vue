@@ -1,6 +1,7 @@
 <template>
   <div class="plan-item">
-      <img src="/img/shanghai.39f11107.png" alt="">
+    
+      <img @click="goEdit(data.id)" src="/img/shanghai.39f11107.png" alt="">
       <div class="plan-content">
         <h1 class="plan_name">{{data.plans_title}}</h1>  
       </div>
@@ -20,6 +21,12 @@ export default {
     async del(id){
       let data = await del(id)
       console.log(data);  
+    },
+    goEdit(id){
+      this.$router.push({name:'editplan',params:{
+        id
+      }})
+
     }
   }
 

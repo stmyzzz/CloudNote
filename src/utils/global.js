@@ -10,6 +10,7 @@ import {
   Dropdown,
   DropdownMenu,
   DropdownItem,
+  Upload
 } from 
 'element-ui'
 import * as utils from './index'
@@ -22,7 +23,7 @@ export default {
     Vue.use(Row)
     Vue.use(Radio)
     Vue.use(Dialog)
-    Vue.use(Popover).use(Dropdown).use(DropdownItem).use(DropdownMenu)
+    Vue.use(Popover).use(Dropdown).use(DropdownItem).use(DropdownMenu).use(Upload)
     Vue.prototype.$message = Message;
     Vue.prototype.$utils = utils
   }

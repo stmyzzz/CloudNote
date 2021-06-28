@@ -154,8 +154,9 @@ export default {
       vm.userId = to.query.id
     })
   },
-  methods:{
+  methods:{             
     async init(){
+      console.log('this.userid',this.userId);
       let res = await profile(this.userId)
       console.log('1212',res);
       this.profiles = res.data
