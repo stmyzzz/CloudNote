@@ -2,27 +2,35 @@
   <div class="collections">
     <list-header title="他的收藏" >
     </list-header>
-    <question-card> 
-    </question-card>
+    <collection-item v-for="(item,index) in collections" :key="index" :data="item"></collection-item>      
+
+
   </div>
 </template>
 
 <script>
-import QuestionCard from '@/components/question-card'
 import {getColl} from '@/api'
 import ListHeader from '@/components/list-header'
+import CollectionItem from './collection-item.vue'
 export default {
   components:{
-    QuestionCard,
-    ListHeader
+    ListHeader,
+    CollectionItem
+  },
+  data(){
+    return {
+      collections:[]
+    }
   },
   created(){
+    this.userId = this.$route.params.id
     this.init()
   },
   methods:{
     async init(){
-      let res = await getColl(18)
+      let res = await getColl(this.userId)
       console.log('jieguo',res);
+      this.collections = res.data
     }
   }
 }

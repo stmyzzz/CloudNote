@@ -29,7 +29,7 @@
                   <button @click="goEdit" v-if="!auth">
                     编辑个人资料
                   </button>
-                  <button v-else-if="auth">关注他</button>
+                  <button v-else-if="auth">{{followStatus}}</button>
                 </div>
               </div>
             </div>
@@ -73,13 +73,13 @@
           <router-link class="button" :to="'/people/'+this.userId+'/following'">
             <div class="follow-iteminner">
               <div class="follow-itemName">关注了</div>
-              <strong class="follow-itemNumber">100</strong>
+              <strong class="follow-itemNumber">{{profiles.followedKey.length}}</strong>
             </div>
           </router-link>
-                 <router-link class="button" :to="'/people/'+userId+'/following'">
+              <router-link class="button" :to="'/people/'+userId+'/following'">
             <div class="follow-iteminner">
               <div class="follow-itemName">关注者</div>
-              <strong class="follow-itemNumber">100</strong>
+              <strong class="follow-itemNumber">{{profiles.followenKey.length}}</strong>
             </div>
           </router-link>
           </div>
@@ -117,7 +117,8 @@ export default {
       auth:false,
       img1:'12',
       showup:false /* 图片保存展示 */,
-      showimg:""
+      showimg:"",
+      followStatus:"关注他"
     }
   },
   components:{
@@ -127,14 +128,15 @@ export default {
     console.log('this.log',this.$route.params.id);
     this.userId = this.$route.params.id
   },
+  mounted(){
+    this.profiles.followStatus ==1 ? this.followStatus ="取消关注" : this.followStatus ="关注他"
+  },
   /* 判断该id是否存在 */
   async beforeRouteEnter(to,from,next){
       let res = await profile(to.params.id)
-      console.log(res);
       if(res.status == 0){
         next('/error')
       }
-      console.log('to',to);
       next(vm=>{
         vm.profiles = res.data
         if(res.data.userId !== res.token){
@@ -142,39 +144,33 @@ export default {
         }
       })
   }, 
+    async beforeRouteUpdate(to,from,next){
+      let res = await profile(to.params.id)
+      console.log('监听变化');
+      console.log(res);
+      if(res.status == 0){
+        next('/error')
+      }
+        this.profiles = res.data
+        if(res.data.userId !== res.token){
+          this.auth = true
+        }
+        next()
+  }, 
   methods:{
     goEdit(){
       this.$router.push('/people/edit')
     },
-    /*  cancel(){
-      this.showup = false
-    },
-    readFile(){
-      var that = this
-      let file = this.$refs.pic.files[0]
-      console.log('2',this.$refs.pic.files[0]);
-      var reader = new FileReader(file)
-      reader.readAsDataURL(file)
-      reader.onload  = function(){
-        that.showimg = reader.result
-        that.showup = true
-      }
-    },
-    async uploadAvatar(){
-      let data = new FormData();
-      console.log(data)
-      data.append('avatar', this.$refs.pic.files[0]);
-        console.log(data)
-      let res = await uploadbg(data)
-      console.log('res',res);
-      this.showup = false
-      this.profiles.profile_bg = res.path
-    } */
   },
-  mounted(){
-    console.log('data1',this.profiles);
-    console.log('this.userId',this.userId);
+  watch: {
+    /* 路由监听 */
+    '$route' (to, from) {
+		if(to.params.id != from.params.id){
+      this.userId = to.params.id;
+		}
+	}
   }
+
 }
 </script>
 

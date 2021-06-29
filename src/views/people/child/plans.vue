@@ -2,18 +2,47 @@
   <div class="plans">
     <list-header title="他的攻略" >
     </list-header>
-    <question-card> 
+    <question-card @getComment="getComment" v-for="(item,index) in dongtais" :data="item.plan" :key="index"> 
     </question-card>
+    <comment-pop :commentDetail="commentDetail" :show="isShow"></comment-pop>
   </div>
 </template>
 
 <script>
 import QuestionCard from '@/components/question-card'
+import CommentPop from '@/components/comment-pop'
 import ListHeader from '@/components/list-header'
+import {dongtai} from '@/api'
 export default {
+  props: ['id'],
   components:{
     QuestionCard,
-    ListHeader
+    ListHeader,
+    CommentPop
+  },
+  data(){
+    return {
+      dongtais:{},
+      commentDetail:[],
+      isShow:false
+    }
+  },
+  computed:{
+  },
+  created(){
+    this.init()
+  },
+  methods:{
+    async init(){
+      let res = await dongtai(this.id)
+      console.log('dongtai',res.data.rows);
+      this.dongtais = res.data.rows
+    },
+    getComment(data){
+      console.log('commentDetail',data);
+      this.commentDetail = data
+      this.isShow = true
+    }
   }
 }
 </script>

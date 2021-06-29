@@ -19,9 +19,8 @@
       <span @click="getComment" class="comment">{{data.comments.length}}条评论</span>
       <button :data-clipboard-text="shareUrl" ref="share" @click="onShareClick" class="share">分享</button>
       <span @click="getCollection" class="collect">{{collectionStatus}}</span>
-      <span class="time">{{$utils.date(data.createdAt)}</span>
-    </div>
- 
+      <span class="time">{{$utils.date(data.createdAt)}}</span>
+    </div>  
   </div>
 </template>
 

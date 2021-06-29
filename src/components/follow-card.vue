@@ -1,29 +1,49 @@
 <template>
   <div class="follow-card">
     <div class="card-img">
-      <img width="60" height="60" src="https://pic4.zhimg.com/v2-48bf7cb081542c20e8a4f732b426e84b_im.jpg" alt="">
+      <img width="60" height="60" :src="imgurl + data.profile.avatal_url" alt="">
     </div>
     <div class="card-content">
-      <h2 class="content-head">stmyzzz</h2>
+      <h2 class="content-head">
+        <router-link :to="'/people/'+data.profile.userId">
+          {{data.profile.profile_name}}
+        </router-link>
+      </h2>
       <div class="content-desc">
         <div>
-          <div class="desc1">喜欢去旅游</div>
+          <div class="desc1">{{data.profile.sign}}</div>
           <div class="desc-status">
-            <span class="status-item">28 攻略</span>
-            <span class="status-item1">4000关注者</span>
+            <span class="status-item">{{data.profile.plans.length}} 攻略</span>
+            <span class="status-item1">{{data.profile.follows.length}}关注者</span>
           </div>
         </div>
       </div>
     </div>
     <div class="card-extra">
-      <button>关注他</button>
+      <button @click="upFollow()">取消关注</button>
     </div>
   </div>
 </template>
 
 <script>
+import {upFollow} from '@/api'
+import {imgurl} from '@/config'
 export default {
+  props:['data'],
+  data(){
+    return {
+      imgurl
+    }
+  },
+  created(){
 
+  },
+  methods:{
+    async upFollow(id){
+      let res = await upFollow(id)
+      console.log('upfollow',res);
+    }
+  }
 }
 </script>
 
@@ -39,6 +59,7 @@ export default {
       .content-head{
         margin-bottom: 5px;
         color: #8590a6;
+        cursor: pointer;
       }
       .content-desc{
         .desc-status{

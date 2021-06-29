@@ -8,7 +8,6 @@
       </div>
     </question-card>
     <comment-pop :commentDetail="commentDetail" :show="isShow"></comment-pop>
-
   </div>
 </template>
 
@@ -43,7 +42,6 @@ export default {
       this.dongtais = res.data.rows
     },
     getComment(data){
-      console.log('commentDetail',data);
       this.commentDetail = data
       this.isShow = true
     }
